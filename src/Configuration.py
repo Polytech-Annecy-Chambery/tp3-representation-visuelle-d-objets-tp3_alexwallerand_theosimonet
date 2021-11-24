@@ -75,7 +75,7 @@ class Configuration:
         gl.glMatrixMode(gl.GL_MODELVIEW)
         gl.glLoadIdentity()
         gl.glTranslatef(0.0,0.0, self.parameters['screenPosition'])       
-        
+        gl.glRotatef(-90,1,0,0)
     # Getter
     def getParameter(self, parameterKey):
         return self.parameters[parameterKey]    
@@ -146,14 +146,28 @@ class Configuration:
         elif self.event.dict['unicode'] == 'a' or self.event.key == pygame.K_a:
             self.parameters['axes'] = not self.parameters['axes']
             pygame.time.wait(300)
+
+        #Zoom
+        elif self.event.key == pygame.K_PAGEUP:
+          gl.glScalef(1.1,1.1,1.1)
+        elif self.event.key == pygame.K_PAGEDOWN:
+          gl.glScalef(1/1.1,1/1.1,1/1.1)  
     
     # Processes the MOUSEBUTTONDOWN event
     def processMouseButtonDownEvent(self):
-        pass
+        if self.event.button == pygame.BUTTON_WHEELUP:
+          gl.glScalef(1.1,1.1,1.1)
+        elif self.event.button == pygame.BUTTON_WHEELDOWN:
+          gl.glScalef(1/1.1,1/1.1,1/1.1)
     
     # Processes the MOUSEMOTION event
     def processMouseMotionEvent(self):
-        pass
+        if pygame.mouse.get_pressed()[0]==1:
+          gl.glRotate(self.event.rel[0], 1, 0 , 0)
+          gl.glRotate(self.event.rel[1], 0, 0, 1)
+        elif pygame.mouse.get_pressed()[2]==1:
+          gl.glTranslatef(self.event.rel[0]/100,0,self.event.rel[1]/100)                     
+
          
     # Displays on screen and processes events    
     def display(self): 

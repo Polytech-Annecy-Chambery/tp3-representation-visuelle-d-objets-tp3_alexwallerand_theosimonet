@@ -53,10 +53,22 @@ class Section:
     # Defines the vertices and faces 
     def generate(self):
         self.vertices = [ 
-                # Définir ici les sommets
+                [0, 0, 0 ], 
+                [0, 0, self.parameters['height']], 
+                [self.parameters['width'], 0, self.parameters['height']],
+                [self.parameters['width'], 0, 0],
+                [0,self.parameters['thickness'],0],
+                [self.parameters['width'],self.parameters['thickness'],0],
+                [0,self.parameters['thickness'],self.parameters['height']],
+                [self.parameters['width'],self.parameters['thickness']self.parameters['height']]
                 ]
         self.faces = [
-                # définir ici les faces
+                [0,3,2,1],
+                [3,5,7,2],
+                [0,3,5,4],
+                [1,2,7,6],
+                [0,4,6,1],
+                [4,5,7,6]
                 ]   
 
     # Checks if the opening can be created for the object x
