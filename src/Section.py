@@ -60,7 +60,7 @@ class Section:
                 [0,self.parameters['thickness'],0],
                 [self.parameters['width'],self.parameters['thickness'],0],
                 [0,self.parameters['thickness'],self.parameters['height']],
-                [self.parameters['width'],self.parameters['thickness']self.parameters['height']]
+                [self.parameters['width'],self.parameters['thickness'],self.parameters['height']]
                 ]
         self.faces = [
                 [0,3,2,1],
@@ -83,11 +83,33 @@ class Section:
         
     # Draws the edges
     def drawEdges(self):
-        # A compléter en remplaçant pass par votre code
-        pass           
+        gl.glPushMatrix()
+        gl.glTranslatef(self.parameters['position'][0],self.parameters['position'][1],self.parameters['position'][2])
+        gl.glPolygonMode(gl.GL_FRONT_AND_BACK, gl.GL_LINE) 
+        gl.glBegin(gl.GL_LINES)
+        gl.glColor3fv([self.parameters['color'][0]*0.8, self.parameters['color'][1]*0.8, self.parameters['color'][2]*0.8])
+        for faces in self.faces:
+            for v in faces:
+                
+                gl.glVertex3fv(self.vertices[v])
+        gl.glEnd()
+        gl.glPopMatrix()
                     
     # Draws the faces
     def draw(self):
-        # A compléter en remplaçant pass par votre code
-        pass
+        gl.glPushMatrix()
+        gl.glTranslatef(self.parameters['position'][0],self.parameters['position'][1],self.parameters['position'][2])
+        if self.parameters['edges'] == True:
+            self.drawEdges()
+        gl.glPolygonMode(gl.GL_FRONT_AND_BACK, gl.GL_FILL) 
+        gl.glBegin(gl.GL_QUADS)
+        gl.glColor3fv(self.parameters['color'])
+        for faces in self.faces:
+            
+            gl.glVertex3fv(self.vertices[faces[0]])
+            gl.glVertex3fv(self.vertices[faces[1]])
+            gl.glVertex3fv(self.vertices[faces[2]])
+            gl.glVertex3fv(self.vertices[faces[3]])
+        gl.glEnd()
+        gl.glPopMatrix()
   
